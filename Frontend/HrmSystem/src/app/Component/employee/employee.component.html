@@ -18,7 +18,7 @@
           <div class="list-group-item active sticky-top">
             <h6 class="mb-0 py-1">Employee List</h6>
           </div>
-          <div *ngFor="let emp of employees" class="list-group-item list-group-item-action"
+          <div *ngFor="let emp of employees()" class="list-group-item list-group-item-action"
             [ngStyle]="{ backgroundColor: emp.id === selectedEmployee?.id ? '#C5C5C5' : '' }" style="cursor: pointer"
             (click)="loadEmployeeToForm(emp);loadEmployeeImageToForm(emp);disbaleFormOnload()">
 

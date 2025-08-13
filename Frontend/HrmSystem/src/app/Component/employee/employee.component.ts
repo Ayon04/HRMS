@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { EmployeeDTO } from '../../Models/EmployeeDTO';
 import { EmployeeService } from '../../Services/employee.service';
 import { DropDownService } from '../../Services/dropDown.service';
@@ -20,7 +20,9 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   styleUrl: './employee.component.css'
 })
 export class EmployeeComponent implements OnInit {
-  employees: EmployeeDTO[] = [];
+  // employees: EmployeeDTO[] = [];
+    employees: WritableSignal<EmployeeDTO[]> = signal<EmployeeDTO[]>([]);
+
   selectedEmployee: EmployeeDTO | null = null;
   employeeImageUrl: SafeUrl | null = null;
 
@@ -314,13 +316,22 @@ cancelClick():void{
   }
 
 
+  // loadEmployees(): void {
+  //   this.employeeService.getAllEmployees(this.idClient).subscribe(data => {
+  //   this.employees = data;
+  //   //this.deleteClick();
+  //   this.employeeForm.disable();
+  //   });
+  // }
+
+  
   loadEmployees(): void {
-    this.employeeService.getAllEmployees(this.idClient).subscribe(data => {
-    this.employees = data;
-    //this.deleteClick();
-    this.employeeForm.disable();
-    });
-  }
+  this.employeeService.getAllEmployees(this.idClient).subscribe({
+    next: (data) => this.employees.set(data),
+    error: (error) => console.error('Failed to fetch employees', error)
+  });
+}
+
 
   loadEmployeeToForm(emp: EmployeeDTO): void {
     this.selectedEmployee = emp;
