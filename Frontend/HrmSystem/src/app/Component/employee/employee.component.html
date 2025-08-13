@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Left Sidebar</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Sidebar - Employee List -->
+      <div class="col-2 p-4 bg-light border-end">
+        <div class="list-group list-group-flush overflow-auto" style="max-height: 100vh;">
+          <div class="list-group-item active sticky-top">
+            <h6 class="mb-0 py-1">Employee List</h6>
+          </div>
+          <div *ngFor="let emp of employees" class="list-group-item list-group-item-action"
+            [ngStyle]="{ backgroundColor: emp.id === selectedEmployee?.id ? '#C5C5C5' : '' }" style="cursor: pointer"
+            (click)="loadEmployeeToForm(emp);loadEmployeeImageToForm(emp);disbaleFormOnload()">
+
+            <div class="fw-bold">{{ emp.id }} - {{ emp.employeeName }}</div>
+            <div class="text-muted small">{{ emp.designation }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Form Section -->
+      <!-- <div class="col-10 p-4">
+
+        <!-- Button Actions -->
+
+         <!-- <div class="d-flex justify-content-end mb-3">
+          <button type="button" (click)="addClick()" class="btn btn-primary me-2"  *ngIf="!isShowBtn">Add</button>
+          <button type="button" (click)="editClick()" class="btn btn-warning me-2" *ngIf="employeeForm.get('id')?.value > 0 && !isShowBtn">Edit</button>
+          <button type="button" (click)="deleteEmp()" class="btn btn-danger me-2"  *ngIf="employeeForm.get('id')?.value && !isShowBtn">Delete</button>
+          <button  type="button" (click)="add()" class="btn btn-success me-2"      *ngIf="isShowBtn">Save</button>
+           <button (click)="cancelClick()" type="button" class="btn btn-danger"    *ngIf="isShowBtn">Cancel</button> -->
+
+          <!-- <button  type="button" (click)="onSave()" class="btn btn-success me-2"  *ngIf="!isShowBtn">Save</button>
+          <button type="button" (click)="deleteEmp()" class="btn btn-danger me-2"  *ngIf="!isShowBtn">Delete</button>
+          <button (click)="cancelClick()" type="button" class="btn btn-danger"  *ngIf="!isShowBtn">Cancel</button> -->
+
+         
+       <!-- Success Alert -->
+   
+        <div class="col-10 p-4">
+         <div class="d-flex justify-content-end mb-3">
+          <button type="button" (click)="addClick()" class="btn btn-primary me-2"  *ngIf="!isShowBtn">Add</button>
+          <button type="button" (click)="editClick()" class="btn btn-warning me-2" *ngIf="employeeForm.get('id')?.value > 0 && !isShowBtn">Edit</button>
+          <button type="button" (click)="deleteEmp()" class="btn btn-danger me-2"  *ngIf="employeeForm.get('id')?.value && !isShowBtn">Delete</button>
+          <button type="button" (click)="onSave()" class="btn btn-success me-2"    *ngIf="isShowBtn">Save</button>
+          <button type="button" (click)="cancelClick()"  class="btn btn-danger me-2" *ngIf="isShowBtn">Cancel</button>
+        </div>
+  
+
+        <!-- Employee Form -->
+      <form [formGroup]="employeeForm">
+
+      <div *ngIf="successMessage" class="alert alert-success" role="alert">
+        {{ successMessage }}
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+        {{ errorMessage }}
+      </div>
+          
+      
+
+          <div class="row mt-3">
+            <div class="col">
+              <label for="name">Employee Name</label>
+              <input id="name" type="text" name="name" value="" class="form-control mt-1"
+                formControlName="employeeName">
+            </div>
+
+            <div class="col">
+              <label for="nameBangla">Employee Name Bangla</label>
+              <input id="nameBangla" type="text" class="form-control mt-1" formControlName="employeeNameBangla">
+            </div>
+
+            <div class="col">
+              <label for="FatherName">Father's Name</label>
+              <input id="FatherName" type="text" class="form-control mt-1" formControlName="fatherName">
+            </div>
+
+            <div class="col">
+              <label for="MotherName">Mother's Name</label>
+              <input id="MotherName" type="text" class="form-control mt-1" formControlName="motherName">
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col">
+              <label for="IdReportingManager">Reporting Manager</label>
+              <input id="IdReportingManager" type="number" class="form-control mt-1" formControlName="idReportingManager">
+            </div>
+
+            <div class="col">
+              <label for="IdJobType">Job Type</label>
+              <select class="form-select mt-1" formControlName="idJobType">
+
+                <option *ngFor="let job of jobtyps" [ngValue]="job.value">
+                  {{job.text}}
+                </option>
+              </select>
+            </div>
+
+            <div class="col">
+              <label for="IdEmployeeType">Employee Type</label>
+              <select class="form-select mt-1" formControlName="idEmployeeType">
+                <option *ngFor="let emp of employeeTypes" [ngValue]="emp.value">
+                  {{emp.text}}
+                </option>
+              </select>
+            </div>
+
+
+            <div class="col">
+              <label for="BirthDate">Date Of Birth</label>
+              <input id="BirthDate" type="date" class="form-control mt-1" formControlName="birthDate">
+            </div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col">
+              <label for="JoiningDate">Joining Date</label>
+              <input id="JoiningDate" type="date" class="form-control mt-1" formControlName="joiningDate">
+            </div>
+
+            <div class="col">
+              <label for="IdGender">Gender</label>
+              <select class="form-select mt-1" formControlName="idGender">
+                <option value="">Select Gender</option>
+                <option *ngFor="let gen of genders" [ngValue]="gen.value">
+                  {{gen.text}}
+                </option>
+              </select>
+            </div>
+
+            <div class="col">
+              <label for="IdReligion">Religion</label>
+              <select class="form-select mt-1" formControlName="idReligion">
+                <option *ngFor="let rel of religions" [ngValue]="rel.value">
+                  {{rel.text}}
+                </option>
+              </select>
+            </div>
+
+            <div class="col">
+
+              
+              <label class="form-label">Department</label>
+              <select class="form-select" formControlName="idDepartment" >
+              <!-- <div *ngIf="employeeForm.get('idDepartment')?.touched && employeeForm.get('idDepartment')?.invalid" class="text-danger">
+                  Department is required.
+                </div> -->
+                
+                <option *ngFor="let dept of departments" [ngValue]="dept.value">
+                  {{dept.text}}
+                </option>
+              </select>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col">
+                <label for="IdSection">Section</label>
+                <select class="form-select mt-1" formControlName="idSection">
+                  <option *ngFor="let sec of sections" [ngValue]="sec.value">
+                    {{sec.text}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col">
+                <label for="IdDesignation">Designation</label>
+                <select class="form-select mt-1" formControlName="idDesignation">
+
+                  <option *ngFor="let desig of designations" [ngValue]="desig.value">
+                    {{desig.text}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col">
+                <label>Has Overtime?</label>
+                <div class="d-flex">
+                  <div class="form-check me-3">
+                    <input type="radio" class="form-check-input" [value]="true" formControlName="hasOvertime"
+                      id="overtimeYes">
+                    <label class="form-check-label" for="overtimeYes">Yes</label>
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" [value]="false" formControlName="hasOvertime"
+                      id="overtimeNo">
+                    <label class="form-check-label" for="overtimeNo">No</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <label>Has Attendance Bonus?</label>
+                <div class="d-flex">
+                  <div class="form-check me-3">
+                    <input type="radio" class="form-check-input" [value]="true" formControlName="hasAttendanceBonus"
+                      id="bonusYes">
+                    <label class="form-check-label" for="bonusYes">Yes</label>
+                  </div>
+                  <div class="form-check">
+                    <input type="radio" class="form-check-input" [value]="false" formControlName="hasAttendanceBonus"
+                      id="bonusNo">
+                    <label class="form-check-label" for="bonusNo">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt-3">
+              <div class="col">
+                <label for="IdWeekOff">Week Off</label>
+                <select class="form-select mt-1" formControlName="idWeekOff">
+                  <option *ngFor="let wkf of weekoffs" [ngValue]="wkf.value">
+                    {{wkf.text}}
+                  </option>
+                </select>
+              </div>
+
+              <div class="col">
+                <label for="NationalIdentificationNumber">NID</label>
+                <input id="NationalIdentificationNumber" type="text" class="form-control mt-1"
+                  formControlName="nationalIdentificationNumber">
+              </div>
+
+              <div class="col">
+                <label for="ContactNo">Contact No</label>
+                <input id="ContactNo" type="text" class="form-control mt-1" formControlName="contactNo">
+              </div>
+
+              <div class="col">
+                <label for="IdMaritalStatus">Marital Status</label>
+                <select class="form-select mt-1" formControlName="idMaritalStatus">
+                  <option value="">Select Marital Status</option>
+                  <option *ngFor="let mt of MaritalStatus" [ngValue]="mt.value">
+                    {{mt.text}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+
+
+            <div class="row mt-3">
+
+              <div class="col">
+                <label>Is Active?</label>
+                <div class="d-flex">
+                  <div class="form-check me-3">
+                    <input class="form-check-input" type="radio" [value]="true" formControlName="isActive"
+                      id="isActiveYes">
+                    <label class="form-check-label" for="isActiveYes">Yes</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" [value]="false" formControlName="isActive"
+                      id="isActiveNo">
+                    <label class="form-check-label" for="isActiveNo">No</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+                <label for="Address">Address</label>
+                <input id="Address" type="text" class="form-control mt-1" formControlName="address">
+              </div>
+
+              <div class="col">
+                <label for="ParmanentAddress">Parmanent Address</label>
+                <input id="ParmanentAddress" type="text" class="form-control mt-1" formControlName="presentAddress">
+              </div>
+
+              <div class="col ">
+                
+                <label for="profileImage" class="form-label">Upload Image</label>
+                <input  formControlName="employeeImage" type="file" #fileInput (change)="onFileChange($event)" />
+
+                <div *ngIf="employeeImageUrl; else noImage">
+                  <img [src]="employeeImageUrl" alt="Image" style="max-width: 200px;" class="mt-2" />
+                </div>
+
+                <ng-template #noImage>
+                  <p>No image available</p>        
+                </ng-template>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="container-fluid mt-4">
+  <div class="row ms-10"> <!-- Adds left gap -->
+    
+    <!-- Documents Table -->
+    <div class="col-6">
+      <div class="border p-3">
+        <h5>Documents</h5>
+        <button type="button" (click)="addDocument()" class="btn btn-outline-success mb-2">Add</button>
+        <div style="overflow-x: auto;">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Document Name</th>
+                <th>Upload File</th>
+                <th>File Name</th>
+                <th>Uploaded Date</th>
+                <th>File Extension</th> 
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="employeeDocuments">
+              <tr *ngFor="let docCtrl of employeeDocuments.controls; let i = index" [formGroupName]="i">
+                <!-- <div *ngIf="employeeForm.get('documentName').touched && employeeForm.get('documentName').hasError('required')"> Document Name is required.</div> -->
+
+                <td><input type="text" formControlName="documentName" class="form-control" /></td>
+                <td><input type="file" (change)="onFileSelected($event, i);onDocFileChange($event, i)" formControlName="uploadedFile" class="form-control" /></td>
+                <td><input readonly type="text" formControlName="fileName" class="form-control" /></td>
+                <td><input readonly type="date" formControlName="uploadDate" class="form-control" /></td>
+                <td><input readonly type="text" formControlName="uploadedFileExtention" class="form-control" /></td>
+                <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="removeDocument(i)">Remove</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Education Information Table -->
+    <div class="col-6">
+      <div class="border p-3">
+        <h5>Education Information</h5>
+        <button type="button" (click)="addEducationInfo()" class="btn btn-outline-success mb-2">Add</button>
+        <div style="overflow-x: auto;">
+          <table class="table table-bordered table-sm">
+            <thead>
+              <tr>
+                <th>Education Level</th>
+                <th>Examination</th>
+                <th>Result</th>
+                <th>CGPA</th>
+                <th>Exam Scale</th>
+                <th>Marks</th>
+                <th>Major</th>
+                <th>Passing Year</th>
+                <th>Institute Name</th>
+                <th>Is Foreign Institute</th>
+                <th>Duration</th>
+                <th>Achievement</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="employeeEducationInfos">
+              <tr *ngFor="let edu of employeeEducationInfo.controls; let i = index" [formGroupName]="i">
+                <td>
+                  <select class="form-select" formControlName="idEducationLevel">
+                    <option *ngFor="let el of EducationLevel" [ngValue]="el.value">{{ el.text }}</option>
+                  </select>
+                </td>
+                <td>
+                  <select class="form-control" formControlName="idEducationExamination">
+                    <option *ngFor="let exam of educationExaminations" [ngValue]="exam.value">{{ exam.text }}</option>
+                  </select>
+                </td>
+                <td>
+                  <select class="form-control" formControlName="idEducationResult">
+                    <option *ngFor="let result of educationResults" [ngValue]="result.value">{{ result.text }}</option>
+                  </select>
+                </td>
+                <td><input type="number" formControlName="cgpa" class="form-control" /></td>
+                <td><input type="number" formControlName="examScale" class="form-control" /></td>
+                <td><input type="number" formControlName="marks" class="form-control" /></td>
+                <td><input type="text" formControlName="major" class="form-control" /></td>
+                <td><input type="number" formControlName="passingYear" class="form-control" /></td>
+                <td><input type="text" formControlName="instituteName" class="form-control" /></td>
+                <td>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" [value]="true" formControlName="isForeignInstitute" id="foreignYes{{i}}" />
+                    <label class="form-check-label" [for]="'foreignYes' + i">Yes</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" [value]="false" formControlName="isForeignInstitute" id="foreignNo{{i}}" />
+                    <label class="form-check-label" [for]="'foreignNo' + i">No</label>
+                  </div>
+                </td>
+                <td><input type="number" formControlName="duration" class="form-control" /></td>
+                <td><input type="text" formControlName="achievement" class="form-control" /></td>
+                <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="removeEducationInfo(i)">Remove</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row ms-10">
+
+    <div class="col-6 mt-4">
+                <div class="border p-3">
+                  <h5>Family Information</h5>
+                    <button (click)="addFamilyInfo()" type="button" class="btn btn-outline-success me-2">Add</button>
+                  <table class="table table-bordered table-sm mt-2">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Relationship</th>
+                        <th>Date Of Birth</th>
+                        <th>Contact No</th>
+                        <th>Current Address</th>
+                        <th>Permanent Address</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                   <tbody formArrayName="employeeFamilyInfos">
+                      <tr *ngFor="let fam of employeeFamilyInfos.controls; let i = index" [formGroupName]="i">
+                        
+                        <td><input type="text" formControlName="name" class="form-control" /></td>
+
+                        <td>
+                          <select formControlName="idGender" class="form-control">
+                            <option *ngFor="let gender of genders" [ngValue]="gender.value">{{ gender.text }}</option>
+                          </select>
+                        </td>
+
+                        <td>
+                          <select formControlName="idRelationship" class="form-control">
+                            <option *ngFor="let rel of relationship" [ngValue]="rel.value">{{ rel.text }}</option>
+                          </select>
+                        </td>
+
+                        <td><input type="date" formControlName="dateOfBirth" class="form-control" /></td>
+                        <td><input type="text" formControlName="contactNo" class="form-control" /></td>
+                        <td><input type="text" formControlName="currentAddress" class="form-control" /></td>
+                        <td><input type="text" formControlName="permanentAddress" class="form-control" /></td>
+
+                        <td>
+                          <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeFamilyInfo(i)">Remove</button>
+                        </td>
+                      </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+
+              <div class="col-6 mt-4">
+                <div class="border p-3">
+                  <h5>Professional Certification</h5>
+               <button type="button" (click)="addProfessionalCertification()" class="btn btn-outline-success me-2">Add</button>
+                  <table class="table table-bordered table-sm mt-2">
+                    <thead>
+                      <tr>
+                        <th>Certification Title</th>
+                        <th>Certification Institute</th>
+                        <th>Institute Location</th>
+                        <th>From Date</th>
+                        <th>To Date</th>
+                         <th>Action</th>
+                      </tr>
+                    </thead>
+                   <tbody formArrayName="employeeProfessionalCertifications">
+                      <tr *ngFor="let cert of employeeProfessionalCertifications.controls; let i = index" [formGroupName]="i">
+                        <td><input formControlName="certificationTitle" class="form-control" /></td>
+                        <td><input formControlName="certificationInstitute" class="form-control" /></td>
+                        <td><input disable formControlName="instituteLocation" class="form-control" /></td>
+                        <td><input formControlName="fromDate" type="date" class="form-control" /></td>
+                        <td><input formControlName="toDate" type="date" class="form-control" /></td>
+                        <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="removeemployeeProfessionalCertifications(i)">Remove</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div> 
+
+
+
+ </form>
+</div>
+
+    </div>
+</div>
+</body>
+
+</html>
