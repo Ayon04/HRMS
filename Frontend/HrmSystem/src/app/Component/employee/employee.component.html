@@ -60,16 +60,14 @@
         <!-- Employee Form -->
       <form [formGroup]="employeeForm">
 
-      <div *ngIf="successMessage" class="alert alert-success" role="alert">
-        {{ successMessage }}
+      <div *ngIf="successMessage()" class="alert alert-success" role="alert">
+        {{ successMessage() }}
       </div>
 
-      <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-        {{ errorMessage }}
+      <div *ngIf="errorMessage()" class="alert alert-danger" role="alert">
+        {{ errorMessage()}}
       </div>
           
-      
-
           <div class="row mt-3">
             <div class="col">
               <label for="name">Employee Name</label>
@@ -103,7 +101,7 @@
               <label for="IdJobType">Job Type</label>
               <select class="form-select mt-1" formControlName="idJobType">
 
-                <option *ngFor="let job of jobtyps" [ngValue]="job.value">
+                <option *ngFor="let job of jobtyps()" [ngValue]="job.value">
                   {{job.text}}
                 </option>
               </select>
@@ -112,7 +110,7 @@
             <div class="col">
               <label for="IdEmployeeType">Employee Type</label>
               <select class="form-select mt-1" formControlName="idEmployeeType">
-                <option *ngFor="let emp of employeeTypes" [ngValue]="emp.value">
+                <option *ngFor="let emp of employeeTypes()" [ngValue]="emp.value">
                   {{emp.text}}
                 </option>
               </select>
@@ -135,7 +133,7 @@
               <label for="IdGender">Gender</label>
               <select class="form-select mt-1" formControlName="idGender">
                 <option value="">Select Gender</option>
-                <option *ngFor="let gen of genders" [ngValue]="gen.value">
+                <option *ngFor="let gen of genders()" [ngValue]="gen.value">
                   {{gen.text}}
                 </option>
               </select>
@@ -144,7 +142,7 @@
             <div class="col">
               <label for="IdReligion">Religion</label>
               <select class="form-select mt-1" formControlName="idReligion">
-                <option *ngFor="let rel of religions" [ngValue]="rel.value">
+                <option *ngFor="let rel of religions()" [ngValue]="rel.value">
                   {{rel.text}}
                 </option>
               </select>
@@ -159,7 +157,7 @@
                   Department is required.
                 </div> -->
                 
-                <option *ngFor="let dept of departments" [ngValue]="dept.value">
+                <option *ngFor="let dept of departments()" [ngValue]="dept.value">
                   {{dept.text}}
                 </option>
               </select>
@@ -169,7 +167,7 @@
               <div class="col">
                 <label for="IdSection">Section</label>
                 <select class="form-select mt-1" formControlName="idSection">
-                  <option *ngFor="let sec of sections" [ngValue]="sec.value">
+                  <option *ngFor="let sec of sections()" [ngValue]="sec.value">
                     {{sec.text}}
                   </option>
                 </select>
@@ -179,7 +177,7 @@
                 <label for="IdDesignation">Designation</label>
                 <select class="form-select mt-1" formControlName="idDesignation">
 
-                  <option *ngFor="let desig of designations" [ngValue]="desig.value">
+                  <option *ngFor="let desig of designations()" [ngValue]="desig.value">
                     {{desig.text}}
                   </option>
                 </select>
@@ -222,7 +220,7 @@
               <div class="col">
                 <label for="IdWeekOff">Week Off</label>
                 <select class="form-select mt-1" formControlName="idWeekOff">
-                  <option *ngFor="let wkf of weekoffs" [ngValue]="wkf.value">
+                  <option *ngFor="let wkf of weekoffs()" [ngValue]="wkf.value">
                     {{wkf.text}}
                   </option>
                 </select>
@@ -243,7 +241,7 @@
                 <label for="IdMaritalStatus">Marital Status</label>
                 <select class="form-select mt-1" formControlName="idMaritalStatus">
                   <option value="">Select Marital Status</option>
-                  <option *ngFor="let mt of MaritalStatus" [ngValue]="mt.value">
+                  <option *ngFor="let mt of MaritalStatus()" [ngValue]="mt.value">
                     {{mt.text}}
                   </option>
                 </select>
@@ -362,17 +360,17 @@
               <tr *ngFor="let edu of employeeEducationInfo.controls; let i = index" [formGroupName]="i">
                 <td>
                   <select class="form-select" formControlName="idEducationLevel">
-                    <option *ngFor="let el of EducationLevel" [ngValue]="el.value">{{ el.text }}</option>
+                    <option *ngFor="let el of EducationLevel()" [ngValue]="el.value">{{ el.text }}</option>
                   </select>
                 </td>
                 <td>
                   <select class="form-control" formControlName="idEducationExamination">
-                    <option *ngFor="let exam of educationExaminations" [ngValue]="exam.value">{{ exam.text }}</option>
+                    <option *ngFor="let exam of educationExaminations()" [ngValue]="exam.value">{{ exam.text }}</option>
                   </select>
                 </td>
                 <td>
                   <select class="form-control" formControlName="idEducationResult">
-                    <option *ngFor="let result of educationResults" [ngValue]="result.value">{{ result.text }}</option>
+                    <option *ngFor="let result of educationResults()" [ngValue]="result.value">{{ result.text }}</option>
                   </select>
                 </td>
                 <td><input type="number" formControlName="cgpa" class="form-control" /></td>
@@ -428,13 +426,13 @@
 
                         <td>
                           <select formControlName="idGender" class="form-control">
-                            <option *ngFor="let gender of genders" [ngValue]="gender.value">{{ gender.text }}</option>
+                            <option *ngFor="let gender of genders()" [ngValue]="gender.value">{{ gender.text }}</option>
                           </select>
                         </td>
 
                         <td>
                           <select formControlName="idRelationship" class="form-control">
-                            <option *ngFor="let rel of relationship" [ngValue]="rel.value">{{ rel.text }}</option>
+                            <option *ngFor="let rel of relationship()" [ngValue]="rel.value">{{ rel.text }}</option>
                           </select>
                         </td>
 
