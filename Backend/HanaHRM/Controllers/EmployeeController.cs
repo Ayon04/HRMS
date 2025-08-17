@@ -24,123 +24,16 @@ namespace HanaHRM.Controllers
                 .AsNoTracking()
                 .Where(e => e.IdClient == idClient && e.IsActive == true)
                 .OrderBy(e=>e.Id)
-                .Select(ed => new EmployeeListDTO {
+                .Select(ed => new EmployeeListDTO 
+                {
                     Id = ed.Id,
                     EmployeeName = ed.EmployeeName ?? "",
                     Designation = ed.Designation.DesignationName ?? "",
+
                 }).ToListAsync();
 
             return Ok(empList);
-
-
-
-
         }
-
-        /*public async Task<IActionResult> GetAllEmployeeDetails([FromQuery] int idClient,CancellationToken cancellationToken)
-        {
-            var employeeDTOs = await _context.Employees
-                .AsNoTracking()
-                .Where(e => e.IdClient == idClient && e.IsActive == true)
-                .Select(ed => new EmployeeDTO
-                {
-                Id = ed.Id,
-                EmployeeName = ed.EmployeeName ?? "",
-                EmployeeNameBangla = ed.EmployeeNameBangla ?? "",
-                FatherName = ed.FatherName ?? "",
-                MotherName = ed.MotherName ?? "",
-                IdReportingManager = ed.IdReportingManager,
-                IdJobType = ed.IdJobType,
-                IdEmployeeType = ed.IdEmployeeType ?? null,
-                BirthDate = ed.BirthDate ?? null,
-                JoiningDate = ed.JoiningDate ?? null,
-                IdGender = ed.IdGender ?? null,
-                IdReligion = ed.IdReligion ?? null,
-                IdDepartment = ed.IdDepartment,
-                IdSection = ed.IdSection,
-                IdDesignation = ed.IdDesignation ?? null,
-                HasOvertime = (bool)ed.HasOvertime.GetValueOrDefault(),
-                HasAttendenceBonus = (bool)ed.HasAttendenceBonus.GetValueOrDefault(),
-                IdWeekOff = ed.IdWeekOff ?? null,
-                Address = ed.Address ?? "",
-                PresentAddress = ed.PresentAddress ?? "",
-                NationalIdentificationNumber = ed.NationalIdentificationNumber ?? "",
-                ContactNo = ed.ContactNo ?? "",
-                IdMaritalStatus = ed.IdMaritalStatus ?? null,
-                CreatedBy = ed.CreatedBy ?? "",
-                DepartmentName = ed.Department.DepartName ?? "",
-                Designation = ed.Designation.DesignationName ?? "",
-                EmployeeDocuments = ed.EmployeeDocuments.Select(d => new EmployeeDocumentDTO
-                {
-                    IdClient = d.IdClient,
-                    Id = d.Id,
-                    IdEmployee = d.IdEmployee,
-                    DocumentName = d.DocumentName,
-                    FileName = d.FileName,
-                    UploadedFileExtention = d.UploadedFileExtention ?? "",
-                    UploadDate = d.UploadDate,
-                    SetDate = d.SetDate ?? null,
-                    CreatedBy = d.CreatedBy ?? "",
-                }).ToList(),
-
-                EmployeeEducationInfos = ed.EmployeeEducationInfos.Select(edu => new EmployeeEducationInfoDTO
-                {
-                    IdClient = edu.IdClient,
-                    Id = edu.Id,
-                    IdEmployee = edu.IdEmployee,
-                    IdEducationLevel = edu.IdEducationLevel,
-                    IdEducationExamination = edu.IdEducationExamination,
-                    IdEducationResult = edu.IdEducationResult,
-                    Cgpa = edu.Cgpa ?? null,
-                    ExamScale = edu.ExamScale ?? null,
-                    Marks = edu.Marks ?? null,
-                    Major = edu.Major ?? "",
-                    PassingYear = edu.PassingYear,
-                    InstituteName = edu.InstituteName,
-                    IsForeignInstitute = edu.IsForeignInstitute,
-                    Duration = edu.Duration ?? null,
-                    Achievement = edu.Achievement,
-                    SetDate = edu.SetDate,
-                    CreatedBy = edu.CreatedBy,
-                    EducationLevelName = edu.EducationLevel.EducationLevelName ?? "",
-                    ExaminationName = edu.EducationExamination.ExamName ?? "",
-                    ResultName = edu.EducationResult.ResultName ?? "",
-                }).ToList(),
-
-                    EmployeeFamilyInfos = ed.EmployeeFamilyInfos.Select(cert => new EmployeeFamilyInfoDTO
-                    {
-                        IdClient = cert.IdClient,
-                        Id = cert.Id,
-                        Name = cert.Name,
-                        IdGender = cert.IdGender,
-                        IdRelationship = cert.IdRelationship,
-                        DateOfBirth = cert.DateOfBirth,
-                        ContactNo = cert.ContactNo,
-                        CurrentAddress = cert.CurrentAddress,
-                        PermanentAddress = cert.PermanentAddress,
-                        SetDate = DateTime.Now,
-
-                    }).ToList(),
-
-
-                    EmployeeProfessionalCertifications = ed.EmployeeProfessionalCertifications.Select(cert => new EmployeeProfessionalCertificationDTO
-                {
-                    IdClient = cert.IdClient,
-                    Id = cert.Id,
-                    IdEmployee = cert.IdEmployee,
-                    CertificationTitle = cert.CertificationTitle,
-                    CertificationInstitute = cert.CertificationInstitute,
-                    InstituteLocation = cert.InstituteLocation,
-                    FromDate = cert.FromDate,
-                    ToDate = cert.ToDate ?? null,
-                    SetDate = cert.SetDate ?? null,
-                    CreatedBy = cert.CreatedBy ?? null,
-                }).ToList()
-            }).ToListAsync();
-
-            return Ok(employeeDTOs);
-        }
-*/
 
         [HttpGet("getemployeebyid")]
         public async Task<IActionResult> GetEmployeeById([FromQuery] int Idclient,[FromQuery] int id ,CancellationToken cancellationToken)
@@ -175,9 +68,9 @@ namespace HanaHRM.Controllers
                 IdMaritalStatus = ed.IdMaritalStatus ?? null,
                 CreatedBy = ed.CreatedBy ?? "",
                 Designation = ed.Designation.DesignationName ?? "",
-                ReligionName = ed.Religion.ReligionName,
-                DepartmentName = ed.Department.DepartName,
-                MaritalStatusName = ed.MaritalStatus.MaritalStatusName,
+                ReligionName = ed.Religion.ReligionName ?? "",
+                DepartmentName = ed.Department.DepartName ?? "",
+                MaritalStatusName = ed.MaritalStatus.MaritalStatusName ?? "",
                   
                 EmployeeDocuments = ed.EmployeeDocuments.Select(d => new EmployeeDocumentDTO
                 {
@@ -208,9 +101,9 @@ namespace HanaHRM.Controllers
                     InstituteName = edu.InstituteName,
                     IsForeignInstitute = edu.IsForeignInstitute,
                     Duration = edu.Duration ?? null,
-                    Achievement = edu.Achievement,
-                    SetDate = edu.SetDate,
-                    CreatedBy = edu.CreatedBy,
+                    Achievement = edu.Achievement ?? "",
+                    SetDate = edu.SetDate ?? null,
+                    CreatedBy = edu.CreatedBy ?? "",
                     EducationLevelName = edu.EducationLevel.EducationLevelName ?? "",
                     ExaminationName = edu.EducationExamination.ExamName ?? "",
                     ResultName = edu.EducationResult.ResultName ?? "",
@@ -248,20 +141,6 @@ namespace HanaHRM.Controllers
             return Ok(employeeDTOs);
         }
 
-
-        /* private async Task<byte[]?> ConvertFileToByteArrayAsync(IFormFile? file)
-         {
-             if (file == null || file.Length == 0)
-
-                 return null;
-
-             using var memoryStream = new MemoryStream();
-
-             await file.CopyToAsync(memoryStream);
-
-             return memoryStream.ToArray();
-
-         }*/
 
         private Task<byte[]?> ConvertFileToByteArrayAsync(string? base64String)
         {
@@ -411,7 +290,8 @@ namespace HanaHRM.Controllers
         [HttpGet("employeeimage")]
         public async Task<IActionResult> GetEmployeeImage([FromQuery]int IdClient,[FromQuery]int id)
         {
-            var employee = await _context.Employees.FirstOrDefaultAsync(ed => ed.IdClient == IdClient && ed.Id == id);
+            var employee = await _context.Employees
+                .FirstOrDefaultAsync(ed => ed.IdClient == IdClient && ed.Id == id);
 
             if (employee == null || employee.EmployeeImage == null)
                 return NotFound("Image not found");
@@ -424,7 +304,8 @@ namespace HanaHRM.Controllers
         [HttpGet("employeedocument")]
         public async Task<IActionResult> GetEmployeeDocument([FromQuery] int IdClient, [FromQuery] int id)
         {
-            var employeeDocumnet = await _context.EmployeeDocuments.FirstOrDefaultAsync(ed => ed.IdClient == IdClient && ed.IdEmployee == id);
+            var employeeDocumnet = await _context.EmployeeDocuments
+                .FirstOrDefaultAsync(ed => ed.IdClient == IdClient && ed.IdEmployee == id);
 
             if (employeeDocumnet == null || employeeDocumnet.UploadedFile == null)
                 return NotFound("Document not found");
@@ -544,49 +425,6 @@ namespace HanaHRM.Controllers
             }
 
 
-            //foreach (var item in employee.EmployeeEducationInfos)
-            //{
-            //    var existingEntry = existingEmployee.EmployeeEducationInfos.FirstOrDefault(ei => ei.IdClient == item.IdClient && ei.Id == item.Id);
-            //    if (existingEntry != null)
-            //    {
-            //        existingEntry.IdEducationLevel = item.IdEducationLevel;
-            //        existingEntry.IdEducationExamination = item.IdEducationExamination;
-            //        existingEntry.IdEducationResult = item.IdEducationResult;
-            //        existingEntry.Cgpa = item.Cgpa;
-            //        existingEntry.ExamScale = item.ExamScale;
-            //        existingEntry.Marks = item.Marks;
-            //        existingEntry.PassingYear = item.PassingYear;
-            //        existingEntry.InstituteName = item.InstituteName;
-            //        existingEntry.Major = item.Major;
-            //        existingEntry.IsForeignInstitute = item.IsForeignInstitute;
-            //        existingEntry.Duration = item.Duration;
-            //        existingEntry.Achievement = item.Achievement;
-            //        existingEntry.SetDate = DateTime.Now;
-            //    }
-            //    else
-            //    {
-            //        var newEmployeeEducationInfo = new EmployeeEducationInfo()
-            //        {
-            //            IdClient = item.IdClient,
-            //            IdEmployee = existingEmployee.Id,
-            //            IdEducationLevel = item.IdEducationLevel,
-            //            IdEducationExamination = item.IdEducationExamination,
-            //            IdEducationResult = item.IdEducationResult,
-            //            Cgpa = item.Cgpa,
-            //            ExamScale =item.ExamScale,
-            //            Marks = item.Marks,
-            //            PassingYear = item.PassingYear,
-            //            InstituteName = item.InstituteName,
-            //            Major = item.Major,
-            //            IsForeignInstitute = item.IsForeignInstitute,
-            //            Duration = item.Duration,
-            //            Achievement = item.Achievement,
-            //            SetDate = DateTime.Now
-            //        };
-
-            //        existingEmployee.EmployeeEducationInfos.Add(newEmployeeEducationInfo);
-            //    }
-            //}
 
             foreach (var item in employee.EmployeeEducationInfos)
             {

@@ -127,11 +127,7 @@ professionalCertification: EmployeeProfessionalCertificationDTO[] = [];
     this.employeeForm.enable();
     this.loadEmployees();
     //this.getDepartments(this.idClient);
-   
-
   }
-
-
 
   initForm(): FormGroup {
     return this.fb.group({
@@ -327,8 +323,6 @@ editClick():void{
 
 }
 
-
-
 cancelClick():void{
     this.isShowBtn = false;
     this.employeeForm.disable();
@@ -341,8 +335,6 @@ cancelClick():void{
     this.employeeForm.disable();
   }
 
-
-  
   loadEmployees(): void {
   this.employeeService.getAllEmployees(this.idClient).subscribe({
     next: (data) => this.employees.set(data),
