@@ -154,7 +154,7 @@ namespace HanaHRM.Controllers
             }
             catch
             {
-                return Task.FromResult<byte[]?>(null); // Or handle/log error
+                return Task.FromResult<byte[]?>(null); 
             }
         }
 

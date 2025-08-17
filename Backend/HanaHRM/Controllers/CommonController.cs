@@ -65,12 +65,12 @@ namespace HanaHRM.Controllers
             var data = await _context.EducationResults
                 .Where(x => x.IdClient == idClient)
                 .Select(er => new DropDown 
-             { 
+                { 
 
                 value = er.Id, 
-                text  = er.ResultName 
+                text  = er.ResultName ?? string.Empty
 
-            }) .ToListAsync(ct);
+                }) .ToListAsync(ct);
             return Ok(data);
         }
 
