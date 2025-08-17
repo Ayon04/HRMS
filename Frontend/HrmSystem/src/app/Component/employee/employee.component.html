@@ -12,7 +12,6 @@
   <div class="container-fluid">
     <div class="row">
 
-      <!-- Sidebar - Employee List -->
       <div class="col-2 p-4 bg-light border-end">
         <div class="list-group list-group-flush overflow-auto" style="max-height: 100vh;">
           <div class="list-group-item active sticky-top">
@@ -28,25 +27,6 @@
         </div>
       </div>
 
-      <!-- Main Form Section -->
-      <!-- <div class="col-10 p-4">
-
-        <!-- Button Actions -->
-
-         <!-- <div class="d-flex justify-content-end mb-3">
-          <button type="button" (click)="addClick()" class="btn btn-primary me-2"  *ngIf="!isShowBtn">Add</button>
-          <button type="button" (click)="editClick()" class="btn btn-warning me-2" *ngIf="employeeForm.get('id')?.value > 0 && !isShowBtn">Edit</button>
-          <button type="button" (click)="deleteEmp()" class="btn btn-danger me-2"  *ngIf="employeeForm.get('id')?.value && !isShowBtn">Delete</button>
-          <button  type="button" (click)="add()" class="btn btn-success me-2"      *ngIf="isShowBtn">Save</button>
-           <button (click)="cancelClick()" type="button" class="btn btn-danger"    *ngIf="isShowBtn">Cancel</button> -->
-
-          <!-- <button  type="button" (click)="onSave()" class="btn btn-success me-2"  *ngIf="!isShowBtn">Save</button>
-          <button type="button" (click)="deleteEmp()" class="btn btn-danger me-2"  *ngIf="!isShowBtn">Delete</button>
-          <button (click)="cancelClick()" type="button" class="btn btn-danger"  *ngIf="!isShowBtn">Cancel</button> -->
-
-         
-       <!-- Success Alert -->
-   
         <div class="col-10 p-4">
          <div class="d-flex justify-content-end mb-3">
           <button type="button" (click)="addClick()" class="btn btn-primary me-2"  *ngIf="!isShowBtn">Add</button>
@@ -57,7 +37,6 @@
         </div>
   
 
-        <!-- Employee Form -->
       <form [formGroup]="employeeForm">
 
       <div *ngIf="successMessage()" class="alert alert-success" role="alert">
@@ -153,9 +132,7 @@
               
               <label class="form-label">Department</label>
               <select class="form-select" formControlName="idDepartment" >
-              <!-- <div *ngIf="employeeForm.get('idDepartment')?.touched && employeeForm.get('idDepartment')?.invalid" class="text-danger">
-                  Department is required.
-                </div> -->
+           
                 
                 <option *ngFor="let dept of departments()" [ngValue]="dept.value">
                   {{dept.text}}
@@ -296,9 +273,8 @@
           </div>
 
           <div class="container-fluid mt-4">
-  <div class="row ms-10"> <!-- Adds left gap -->
+  <div class="row ms-10">
     
-    <!-- Documents Table -->
     <div class="col-6">
       <div class="border p-3">
         <h5>Documents</h5>
@@ -317,7 +293,6 @@
             </thead>
             <tbody formArrayName="employeeDocuments">
               <tr *ngFor="let docCtrl of employeeDocuments.controls; let i = index" [formGroupName]="i">
-                <!-- <div *ngIf="employeeForm.get('documentName').touched && employeeForm.get('documentName').hasError('required')"> Document Name is required.</div> -->
 
                 <td><input type="text" formControlName="documentName" class="form-control" /></td>
                 <td><input type="file" (change)="onFileSelected($event, i);onDocFileChange($event, i)" formControlName="uploadedFile" class="form-control" /></td>
@@ -332,7 +307,6 @@
       </div>
     </div>
 
-    <!-- Education Information Table -->
     <div class="col-6">
       <div class="border p-3">
         <h5>Education Information</h5>
@@ -482,9 +456,6 @@
 
             </div>
           </div> 
-
-
-
  </form>
 </div>
 

@@ -9,7 +9,6 @@ import { environment } from '../environment';
 })
 export class DropDownService {
 
-  // private api = 'https://localhost:7135/api/common'; 
   private api = environment.apiBaseUrl
 
   constructor(private http: HttpClient) {}

@@ -24,9 +24,7 @@ import { Observable, of } from 'rxjs';
   styleUrl: './employee.component.css'
 })
 export class EmployeeComponent implements OnInit {
-   //employees: EmployeeDTO[] = [];
   employees: WritableSignal<EmployeeDTO[]> = signal<EmployeeDTO[]>([]);
-  //employeesList: Signal<EmployeeDTO[]>;
 
 
   selectedEmployee: EmployeeDTO | null = null;
@@ -37,20 +35,6 @@ export class EmployeeComponent implements OnInit {
   isHide = true;
   isShowBtn:boolean = false;
 
-
-  // departments: any[] = [];
-  // sections: any[] = [];
-  // designations: any[] = [];
-  // genders: any[] = [];
-  // religions: any[] = [];
-  // jobtyps: any[] = [];
-  // employeeTypes: any[] = [];
-  // weekoffs: any[] = [];
-  // MaritalStatus: any[] = [];
-  // EducationLevel: any[] = [];
-  // educationExaminations: any[] = [];
-  // educationResults: any[] = [];
-  // relationship: any[] = [];
 private _employees = signal<any[]>([]);
 private _departments = signal<any[]>([]);
 private _sections = signal<any[]>([]);
@@ -115,18 +99,8 @@ professionalCertification: EmployeeProfessionalCertificationDTO[] = [];
   ngOnInit(): void {
 
     console.log("HRM System Running");
-
-
-    // this.employeeEducationInfo.disabled === true;
-    // this.employeeDocuments.disabled === true;
-    // this.employeeFamilyInfos.disabled === true;
-    // this.employeeProfessionalCertifications.disabled === true;
-
-    //this.disableAllControls(this.employeeForm);
-
     this.employeeForm.enable();
     this.loadEmployees();
-    //this.getDepartments(this.idClient);
   }
 
   initForm(): FormGroup {
@@ -226,9 +200,7 @@ docs.push(this.createDocumentForm());
     achievement: [''],
     setDate: [new Date()],
     createdBy: ['admin']
-    // educationLevelName: [''],
-    // examinationName: [''],
-    // resultName: ['']
+   
   });
 }
 
@@ -301,7 +273,6 @@ removeFamilyInfo(index: number): void {
     this.employeeProfessionalCertifications.clear(); 
     this.employeeFamilyInfos.clear(); 
    
-   // this.employeeImageUrl
     
   }
 
@@ -326,7 +297,6 @@ editClick():void{
 cancelClick():void{
     this.isShowBtn = false;
     this.employeeForm.disable();
-    //this.clearForm();
  }
 
 
@@ -361,7 +331,6 @@ cancelClick():void{
           isActive: employeeData.isActive ?? true
         });
 
-        // Reset FormArrays
         this.employeeDocuments.clear();
         (employeeData.employeeDocuments || []).forEach(doc => {
           this.employeeDocuments.push(this.fb.group(doc));
@@ -423,14 +392,6 @@ cancelClick():void{
     const localDate = new Date(d.getTime() - offset * 60000);
     return localDate.toISOString().split('T')[0];
   }
-
-
-//   getDepartments(idClient: number): void {
-//   this.dropdownService.getDepartmentDropdown(idClient).subscribe({
-//     next: data => this._departments.set(data)
-//    });
-// }
-
 
 
 getDepartments(idClient: number): void {
