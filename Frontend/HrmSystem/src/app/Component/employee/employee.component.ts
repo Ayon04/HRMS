@@ -3,7 +3,7 @@ import { Component, OnInit, Signal, signal, WritableSignal } from '@angular/core
 import { EmployeeDTO } from '../../Models/EmployeeDTO';
 import { EmployeeService } from '../../Services/employee.service';
 import { DropDownService } from '../../Services/dropDown.service';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AbstractControl, FormArray, FormBuilder,FormControl,FormGroup,FormsModule,ReactiveFormsModule,Validators} from '@angular/forms';
 import { DropDown } from '../../Models/DropDown';
 import { EmployeeDocumentDTO } from '../../Models/EmployeeDocumentDTO';
@@ -34,6 +34,8 @@ export class EmployeeComponent implements OnInit {
   public idClient: number = 10001001;
   isHide = true;
   isShowBtn:boolean = false;
+  isShowRmvBtn:boolean = false;
+
 
 private _employees = signal<any[]>([]);
 private _departments = signal<any[]>([]);
@@ -76,7 +78,8 @@ professionalCertification: EmployeeProfessionalCertificationDTO[] = [];
     private employeeService: EmployeeService,
     private dropdownService: DropDownService,
     private fb: FormBuilder,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private router: Router
   
   ) {
     this.employeeDto = new EmployeeDTO();
@@ -157,6 +160,12 @@ professionalCertification: EmployeeProfessionalCertificationDTO[] = [];
   return this.employeeForm.get('employeeFamilyInfos') as FormArray;
 }
 
+reloadCurrentRoute() {
+  const currentUrl = this.router.url;
+  this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+    this.router.navigate([currentUrl]);
+  });
+}
 
   createDocumentForm(): FormGroup {
     return this.fb.group({
@@ -291,7 +300,7 @@ editClick():void{
 
   this.employeeForm.enable();
   this.isShowBtn =true;
-
+  
 }
 
 cancelClick():void{
@@ -310,6 +319,7 @@ cancelClick():void{
     next: (data) => this.employees.set(data),
     error: (error) => console.error('Failed to fetch employees', error)
   });
+  this.employeeForm.disable();
    
 }
 
@@ -672,13 +682,15 @@ add(): void {
       this.clearForm(); 
       this.loadEmployees();
       this.employeeForm.reset();
+      this.reloadCurrentRoute();
     },
     error: (err) => {
       this.errorMessage.set('Failed to add data.');
       this.successMessage.set(null);
     }
   });
-  
+    this.isShowBtn = false;
+
 }
 
 update(): void {
@@ -694,12 +706,14 @@ update(): void {
 
       this.clearForm(); 
       this.loadEmployees();
+      this.reloadCurrentRoute();
     },
     error: (err) => {
       this.errorMessage.set('Failed to update data.');
       this.successMessage.set(null);
     }
   });
+  this.isShowBtn = false;
 }
 
 
@@ -761,5 +775,18 @@ deleteEmp(): void {
       }
     });
 }
+
+childAddBtnClick():void{
+
+  this.isShowBtn = true
+
+}
+
+  onDownloadClick(idClient: number, idEmployee: number, fileName: string): void {
+    this.employeeService.downloadFile(idClient, idEmployee, fileName);
+  }
+
+
+
 
 }

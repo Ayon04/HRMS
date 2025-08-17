@@ -66,4 +66,19 @@ getEmployeeImage(idClient: number, id: number): Observable<Blob> {
     return throwError(() => new Error(error.message || 'Server Error'));
   }
 
+
+  downloadFile(idClient: number, id: number, fileName: string) {
+  this.http.get(this.apiUrl, {
+    params: { idClient, id },
+    responseType: 'blob'
+  }).subscribe(blob => {
+    const a = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+}
+
 }

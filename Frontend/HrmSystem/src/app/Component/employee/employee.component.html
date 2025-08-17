@@ -30,10 +30,10 @@
         <div class="col-10 p-4">
          <div class="d-flex justify-content-end mb-3">
           <button type="button" (click)="addClick()" class="btn btn-primary me-2"  *ngIf="!isShowBtn">Add</button>
-          <button type="button" (click)="editClick()" class="btn btn-warning me-2" *ngIf="employeeForm.get('id')?.value > 0 && !isShowBtn">Edit</button>
+          <button type="button" (click)="editClick()" class="btn btn-warning me-2" *ngIf="employeeForm.disabled && employeeForm.get('id')?.value > 0 && !isShowBtn">Edit</button>
           <button type="button" (click)="deleteEmp()" class="btn btn-danger me-2"  *ngIf="employeeForm.get('id')?.value && !isShowBtn">Delete</button>
-          <button type="button" (click)="onSave()" class="btn btn-success me-2"    *ngIf="isShowBtn">Save</button>
-          <button type="button" (click)="cancelClick()"  class="btn btn-danger me-2" *ngIf="isShowBtn">Cancel</button>
+          <button type="button" (click)="onSave()" class="btn btn-success me-2"    *ngIf="!employeeForm.disabled && isShowBtn">Save</button>
+          <button type="button" (click)="cancelClick()"  class="btn btn-danger me-2" *ngIf="!employeeForm.disabled && isShowBtn">Cancel</button>
         </div>
   
 
@@ -278,7 +278,7 @@
     <div class="col-6">
       <div class="border p-3">
         <h5>Documents</h5>
-        <button type="button" (click)="addDocument()" class="btn btn-outline-success mb-2">Add</button>
+        <button type="button" (click)="addDocument()" class="btn btn-outline-success mb-2" *ngIf="!employeeForm.disabled && isShowBtn" >Add</button>
         <div style="overflow-x: auto;">
           <table class="table table-bordered">
             <thead>
@@ -289,6 +289,8 @@
                 <th>Uploaded Date</th>
                 <th>File Extension</th> 
                 <th>Action</th>
+                <th>Download</th>
+               
               </tr>
             </thead>
             <tbody formArrayName="employeeDocuments">
@@ -297,11 +299,30 @@
                 <td><input type="text" formControlName="documentName" class="form-control" /></td>
                 <td><input type="file" (change)="onFileSelected($event, i);onDocFileChange($event, i)" formControlName="uploadedFile" class="form-control" /></td>
                 <td><input readonly type="text" formControlName="fileName" class="form-control" /></td>
+                
+
                 <td><input readonly type="date" formControlName="uploadDate" class="form-control" /></td>
                 <td><input readonly type="text" formControlName="uploadedFileExtention" class="form-control" /></td>
-                <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="removeDocument(i)">Remove</button></td>
-              </tr>
-            </tbody>
+                <td>
+                <button
+                  type="button"
+                  class="btn btn-outline-danger btn-sm"
+                  (click)="removeDocument(i)" *ngIf="!employeeForm.disabled && isShowBtn">Remove</button>            
+              </td>
+
+              <td>
+                  <button
+                  type="button"
+                  class="btn btn-outline-info btn-sm"
+                  (click)="onDownloadClick(
+                    employeeDocuments.at(i).get('idClient')?.value,
+                    employeeDocuments.at(i).get('idEmployee')?.value,
+                    employeeDocuments.at(i).get('fileName')?.value
+                  )" *ngIf="employeeDocuments.at(i).get('fileName')?.value "
+                >
+                  Download
+                </button>
+
           </table>
         </div>
       </div>
@@ -310,7 +331,7 @@
     <div class="col-6">
       <div class="border p-3">
         <h5>Education Information</h5>
-        <button type="button" (click)="addEducationInfo()" class="btn btn-outline-success mb-2">Add</button>
+        <button type="button" (click)="addEducationInfo()" class="btn btn-outline-success mb-2" *ngIf="!employeeForm.disabled && isShowBtn">Add</button>
         <div style="overflow-x: auto;">
           <table class="table table-bordered table-sm">
             <thead>
@@ -365,7 +386,7 @@
                 </td>
                 <td><input type="number" formControlName="duration" class="form-control" /></td>
                 <td><input type="text" formControlName="achievement" class="form-control" /></td>
-                <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="removeEducationInfo(i)">Remove</button></td>
+                <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="removeEducationInfo(i)" *ngIf="!employeeForm.disabled && isShowBtn">Remove</button></td>
               </tr>
             </tbody>
           </table>
@@ -379,7 +400,7 @@
     <div class="col-6 mt-4">
                 <div class="border p-3">
                   <h5>Family Information</h5>
-                    <button (click)="addFamilyInfo()" type="button" class="btn btn-outline-success me-2">Add</button>
+                    <button (click)="addFamilyInfo()" type="button" class="btn btn-outline-success me-2" *ngIf="!employeeForm.disabled && isShowBtn">Add</button>
                   <table class="table table-bordered table-sm mt-2">
                     <thead>
                       <tr>
@@ -416,7 +437,7 @@
                         <td><input type="text" formControlName="permanentAddress" class="form-control" /></td>
 
                         <td>
-                          <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeFamilyInfo(i)">Remove</button>
+                          <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeFamilyInfo(i)" *ngIf="!employeeForm.disabled && isShowBtn">Remove</button>
                         </td>
                       </tr>
                     </tbody>
@@ -428,7 +449,7 @@
               <div class="col-6 mt-4">
                 <div class="border p-3">
                   <h5>Professional Certification</h5>
-               <button type="button" (click)="addProfessionalCertification()" class="btn btn-outline-success me-2">Add</button>
+               <button type="button" (click)="addProfessionalCertification()" class="btn btn-outline-success me-2" *ngIf="!employeeForm.disabled && isShowBtn">Add</button>
                   <table class="table table-bordered table-sm mt-2">
                     <thead>
                       <tr>
@@ -447,7 +468,7 @@
                         <td><input disable formControlName="instituteLocation" class="form-control" /></td>
                         <td><input formControlName="fromDate" type="date" class="form-control" /></td>
                         <td><input formControlName="toDate" type="date" class="form-control" /></td>
-                        <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="removeemployeeProfessionalCertifications(i)">Remove</button></td>
+                        <td><button type="button" class="btn btn-outline-danger btn-sm" (click)="removeemployeeProfessionalCertifications(i)" *ngIf="!employeeForm.disabled && isShowBtn">Remove</button></td>
                       </tr>
                     </tbody>
                   </table>
